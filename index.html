@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casayola — Pisos en Córdoba</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand-50:#f8fafc;--brand-100:#f1f5f9;--brand-200:#e2e8f0;--brand-300:#cbd5e1;
+  --brand-400:#94a3b8;--brand-500:#64748b;--brand-600:#475569;--brand-700:#334155;
+  --brand-800:#1e293b;--brand-900:#0f172a;--brand-950:#020617;
+  --accent-50:#eef2ff;--accent-100:#e0e7ff;--accent-200:#c7d2fe;--accent-300:#a5b4fc;
+  --accent-400:#818cf8;--accent-500:#6366f1;--accent-600:#4f46e5;--accent-700:#4338ca;
+  --accent-800:#3730a3;--accent-900:#312e81;--accent-950:#1e1b4b;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--brand-50);color:var(--brand-900);line-height:1.6;overflow-x:hidden}
+
+/* ── NAV ── */
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.97);border-bottom:1px solid var(--brand-200);backdrop-filter:blur(12px)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:40px;height:40px;background:var(--accent-900);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--accent-950);letter-spacing:-0.01em}
+.logo-text span{color:var(--accent-600);text-decoration:underline;text-decoration-color:rgba(79,70,229,0.3)}
+nav.main-nav{display:flex;gap:2rem}
+nav.main-nav a{color:var(--brand-600);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color .2s}
+nav.main-nav a:hover{color:var(--brand-900)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-phone{display:flex;align-items:center;gap:6px;color:var(--brand-600);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color .2s}
+.nav-phone:hover{color:var(--brand-900)}
+.btn-contact-nav{background:var(--accent-900);color:#fff;padding:.5rem 1.4rem;border-radius:999px;font-size:.82rem;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(49,46,129,.25);transition:background .2s}
+.btn-contact-nav:hover{background:var(--accent-800)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:.5rem;color:var(--brand-900)}
+.mobile-menu{display:none;background:#fff;border-bottom:1px solid var(--brand-200);padding:1rem 2rem 1.5rem}
+.mobile-menu.open{display:block}
+.mobile-menu a{display:block;padding:.6rem .75rem;border-radius:6px;color:var(--brand-900);text-decoration:none;font-size:.95rem;font-weight:500}
+.mobile-menu a:hover{background:var(--brand-50)}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:88vh;display:flex;align-items:center;padding-top:72px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:var(--brand-900)}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}
+.hero-slide.active{opacity:1}
+.hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center;opacity:.52}
+.hero-grad{position:absolute;inset:0;background:linear-gradient(to top,var(--brand-900) 0%,rgba(15,23,42,.35) 60%)}
+.hero-content{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:4rem 2rem;width:100%}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;padding:.4rem 1rem;border-radius:999px;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);font-size:.82rem;font-weight:500;margin-bottom:1.5rem}
+.hero-pill-dot{width:8px;height:8px;border-radius:50%;background:#a5b4fc;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:700;color:#fff;line-height:1.1;margin-bottom:1.2rem}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.75);max-width:580px;margin-bottom:2.5rem;font-weight:300}
+/* 4 botones hero */
+.hero-btns{display:grid;grid-template-columns:repeat(2,auto);gap:.85rem;width:fit-content}
+@media(max-width:520px){.hero-btns{grid-template-columns:1fr 1fr;width:100%}}
+.btn-hero{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 1.8rem;border-radius:6px;font-weight:700;font-size:.88rem;text-decoration:none;transition:transform .2s,background .2s,box-shadow .2s;white-space:nowrap}
+.btn-hero:hover{transform:translateY(-2px)}
+.btn-hero-white{background:#fff;color:var(--accent-950);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.btn-hero-white:hover{background:var(--brand-100)}
+.btn-hero-accent{background:var(--accent-600);color:#fff;box-shadow:0 8px 24px rgba(79,70,229,.35)}
+.btn-hero-accent:hover{background:var(--accent-700)}
+.btn-hero-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(8px)}
+.btn-hero-ghost:hover{background:rgba(255,255,255,.22)}
+/* slide indicators */
+.hero-indicators{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:3}
+.hero-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;transition:background .3s,transform .3s;border:none}
+.hero-dot.active{background:#fff;transform:scale(1.3)}
+.hero-stats{display:flex;align-items:center;gap:2.5rem;margin-top:3.5rem;color:rgba(255,255,255,.7)}
+.hero-stat strong{display:block;font-size:2rem;font-weight:700;color:#fff;line-height:1}
+.hero-stat span{font-size:.78rem}
+.hero-divider{width:1px;height:40px;background:rgba(255,255,255,.2)}
+
+/* ── COMMON ── */
+.container{max-width:1280px;margin:0 auto;padding:0 2rem}
+.section-label{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--brand-400);margin-bottom:.5rem}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:var(--brand-900);line-height:1.2}
+.section-sub{color:var(--brand-500);font-size:.9rem;margin-top:.5rem}
+
+/* ── CLIENT TYPES ── */
+.clients-section{padding:6rem 0;background:#fff}
+.clients-header{text-align:center;max-width:680px;margin:0 auto 3.5rem}
+.clients-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:768px){.clients-grid{grid-template-columns:1fr}}
+.client-card{background:#fff;border:1px solid var(--brand-200);border-radius:12px;padding:.75rem;display:flex;gap:1rem;align-items:center;cursor:pointer;transition:border-color .2s}
+.client-card:hover{border-color:var(--accent-300)}
+.client-card:hover .client-img{filter:grayscale(0);opacity:1}
+.client-img-wrap{width:80px;height:80px;border-radius:8px;overflow:hidden;flex-shrink:0}
+.client-img{width:100%;height:100%;object-fit:cover;filter:grayscale(1);opacity:.75;transition:filter .3s,opacity .3s}
+.client-info{}
+.client-title{font-size:1rem;font-weight:700;color:var(--brand-900);margin-bottom:.25rem}
+.client-desc{font-size:.78rem;color:var(--brand-500);line-height:1.5}
+.client-link{display:inline-flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-600);margin-top:.4rem}
+.client-link svg{transition:transform .2s}
+.client-card:hover .client-link svg{transform:translateX(3px)}
+
+/* ── PROPERTIES ── */
+.props-section{padding:6rem 0;background:var(--brand-50)}
+.props-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:1rem;margin-bottom:3rem}
+.filter-btn-toggle{display:flex;align-items:center;gap:.5rem;background:#fff;border:1px solid var(--brand-200);color:var(--brand-800);padding:.5rem 1rem;border-radius:4px;font-size:.78rem;font-weight:700;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.filter-btn-toggle:hover{background:var(--brand-100)}
+.filters-panel{background:#fff;border:1px solid var(--brand-100);border-radius:16px;padding:1.5rem;margin-bottom:3rem;display:none}
+.filters-panel.open{display:block}
+.filters-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem}
+.filter-group label{display:block;font-size:.82rem;font-weight:500;color:var(--brand-700);margin-bottom:.5rem}
+.filter-group select{width:100%;background:var(--brand-50);border:1px solid var(--brand-200);color:var(--brand-900);border-radius:8px;padding:.6rem 1rem;font-size:.88rem;outline:none;transition:border-color .2s}
+.filter-group select:focus{border-color:var(--accent-500)}
+.btn-apply{width:100%;background:var(--brand-900);color:#fff;border:none;border-radius:8px;padding:.7rem 1rem;font-size:.88rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .2s}
+.btn-apply:hover{background:var(--brand-800)}
+.tabs-row{display:flex;gap:.75rem;margin-bottom:2rem;flex-wrap:wrap}
+.tab-pill{padding:.5rem 1.1rem;border-radius:4px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;border:1px solid var(--brand-200);background:#fff;color:var(--brand-500);transition:all .2s}
+.tab-pill:hover{background:var(--brand-100)}
+.tab-pill.active{background:var(--accent-900);color:#fff;border-color:var(--accent-900);box-shadow:0 2px 8px rgba(49,46,129,.2)}
+.props-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2rem}
+
+/* ── PROPERTY CARD ── */
+.prop-card{background:#fff;border:1px solid var(--brand-200);border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:box-shadow .25s,transform .25s;display:flex;flex-direction:column;height:100%}
+.prop-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.12);transform:translateY(-3px)}
+.prop-img-wrap{position:relative;height:220px;overflow:hidden;background:var(--brand-100);cursor:pointer}
+.prop-img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.prop-card:hover .prop-img{transform:scale(1.04)}
+.prop-badge-row{position:absolute;top:.75rem;left:.75rem;display:flex;gap:.4rem;z-index:2}
+.prop-badge{padding:.2rem .6rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;border-radius:4px;backdrop-filter:blur(6px)}
+.badge-sale{background:rgba(15,23,42,.85);color:#fff}
+.badge-rent{background:rgba(79,70,229,.85);color:#fff}
+.badge-extra{background:rgba(255,255,255,.9);color:var(--brand-800)}
+.prop-price-tag{position:absolute;bottom:.75rem;right:.75rem;background:rgba(255,255,255,.95);backdrop-filter:blur(6px);padding:.3rem .75rem;border-radius:999px;font-size:.95rem;font-weight:700;color:var(--accent-950);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.prop-price-tag small{font-size:.7rem;font-weight:400;color:var(--brand-500)}
+.img-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);backdrop-filter:blur(6px);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.prop-img-wrap:hover .img-nav{opacity:1}
+.img-nav.prev{left:.5rem}
+.img-nav.next{right:.5rem}
+.img-dots{position:absolute;bottom:.5rem;left:50%;transform:translateX(-50%);display:flex;gap:.3rem}
+.img-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5)}
+.img-dot.active{background:#fff}
+.prop-body{padding:1.2rem 1.4rem;display:flex;flex-direction:column;flex:1}
+.prop-zone{display:flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--brand-500);margin-bottom:.4rem}
+.prop-zone svg{flex-shrink:0}
+.prop-title{font-size:1rem;font-weight:700;color:var(--brand-800);line-height:1.3;margin-bottom:.4rem;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.prop-desc{font-size:.78rem;color:var(--brand-500);line-height:1.6;margin-bottom:.9rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4rem}
+.prop-features{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.8rem}
+.feat-chip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;padding:.4rem;background:var(--brand-50);border:1px solid var(--brand-100);border-radius:8px;font-size:.68rem;font-weight:500;color:var(--brand-600)}
+.feat-chip svg{color:var(--brand-400)}
+.prop-extras{display:flex;gap:1rem;font-size:.68rem;font-weight:700;color:var(--brand-400);border-top:1px solid var(--brand-100);padding-top:.7rem;margin-bottom:.9rem}
+.prop-btn{width:100%;background:var(--brand-900);color:#fff;border:none;border-radius:8px;padding:.55rem;font-size:.75rem;font-weight:700;cursor:pointer;margin-top:auto;transition:background .2s,color .2s;letter-spacing:.05em;text-transform:uppercase}
+.prop-btn:hover{background:var(--accent-900)}
+.empty-state{text-align:center;padding:5rem 2rem;background:#fff;border-radius:16px;border:1px solid var(--brand-100);grid-column:1/-1}
+.empty-icon{width:72px;height:72px;background:var(--brand-50);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.8rem;color:var(--brand-400)}
+.empty-state h3{font-size:1.1rem;font-weight:600;margin-bottom:.4rem}
+.empty-state p{font-size:.88rem;color:var(--brand-500);max-width:360px;margin:0 auto 1.5rem}
+.clear-link{background:none;border:none;color:var(--accent-600);font-size:.9rem;font-weight:500;cursor:pointer;text-decoration:underline}
+
+/* ── TESTIMONIALS ── */
+.test-section{padding:6rem 0;background:#fff}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+@media(max-width:900px){.test-grid{grid-template-columns:1fr}}
+.test-card{background:var(--accent-50);border-radius:12px;padding:1.5rem;position:relative;display:flex;flex-direction:column}
+.quote-icon{position:absolute;top:-.8rem;left:-.8rem;background:#fff;border:1px solid var(--brand-200);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--accent-400);font-size:1rem}
+.test-text{font-size:.82rem;font-style:italic;color:var(--accent-900);line-height:1.7;flex:1;margin-bottom:1rem}
+.test-author{display:flex;align-items:center;gap:.6rem;border-top:1px solid rgba(165,180,252,.3);padding-top:.8rem}
+.test-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover}
+.test-name{font-size:.68rem;font-weight:700;color:var(--accent-700);text-transform:uppercase;letter-spacing:.06em}
+
+/* ── FAQ ── */
+.faq-section{padding:6rem 0;background:#fff}
+.faq-layout{display:flex;gap:4rem;align-items:flex-start}
+@media(max-width:768px){.faq-layout{flex-direction:column;gap:2rem}}
+.faq-intro{flex:0 0 280px}
+.faq-list{flex:1}
+.faq-item{border:1px solid var(--brand-200);border-radius:12px;overflow:hidden;margin-bottom:.75rem;background:#fff;transition:border-color .2s}
+.faq-item:hover{border-color:var(--brand-300)}
+.faq-q{width:100%;text-align:left;padding:1rem 1.2rem;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;font-size:.88rem;font-weight:700;color:var(--brand-900)}
+.faq-chevron{flex-shrink:0;color:var(--brand-400);transition:transform .3s;font-size:1rem}
+.faq-chevron.open{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 1.2rem 1rem;font-size:.82rem;color:var(--brand-500);line-height:1.7;border-top:1px solid var(--brand-100);margin-top:.5rem;padding-top:.75rem}
+.faq-a.open{display:block}
+
+/* ── CONTACT ── */
+.contact-section{padding:6rem 0;background:var(--brand-950);position:relative;overflow:hidden}
+.contact-blob{position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:rgba(255,255,255,.03);pointer-events:none}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
+.contact-label{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--brand-400);margin-bottom:.5rem}
+.contact-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:#fff;margin-bottom:1rem;line-height:1.2}
+.contact-sub{color:var(--brand-200);font-size:1rem;font-weight:300;margin-bottom:3rem}
+.contact-items{display:flex;flex-direction:column;gap:2rem}
+.contact-item{display:flex;align-items:flex-start;gap:1rem}
+.contact-icon{width:44px;height:44px;background:var(--brand-800);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent-400)}
+.contact-detail h4{font-size:.82rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.contact-detail .ci-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--brand-400);margin-bottom:.2rem}
+.contact-detail a,.contact-detail p{font-size:1.05rem;font-weight:700;color:#fff;text-decoration:none;display:block;transition:color .2s}
+.contact-detail a:hover{color:var(--accent-400)}
+.contact-detail .small{font-size:.7rem;font-weight:400;color:var(--brand-400);text-transform:uppercase;letter-spacing:.08em}
+/* Infografía visual */
+.infografia-card{background:#fff;border-radius:16px;border:1px solid var(--brand-800);padding:.5rem;overflow:hidden;height:440px}
+.infografia-card iframe{width:100%;height:100%;border:0;border-radius:12px}
+
+/* ── FOOTER ── */
+footer{background:var(--brand-900);padding:2.5rem;display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--accent-400)}
+.footer-copy{font-size:.78rem;color:var(--brand-500)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-size:.78rem;color:var(--brand-500);text-decoration:none;text-transform:uppercase;letter-spacing:.07em;transition:color .2s}
+.footer-links a:hover{color:var(--brand-300)}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1.5rem}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;max-width:800px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+.modal-img-wrap{height:280px;overflow:hidden;background:var(--brand-100);border-radius:16px 16px 0 0}
+.modal-img-wrap img{width:100%;height:100%;object-fit:cover}
+.modal-close{position:sticky;top:1rem;float:right;margin:-.5rem .5rem 0 0;z-index:10;background:rgba(255,255,255,.9);border:1px solid var(--brand-200);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.modal-close:hover{background:var(--brand-100)}
+.modal-body{padding:1.5rem 2rem 2rem}
+.modal-price{font-size:2rem;font-weight:700;color:var(--accent-900);margin-bottom:.25rem}
+.modal-price small{font-size:.9rem;font-weight:400;color:var(--brand-400)}
+.modal-address{font-size:.82rem;color:var(--brand-500);margin-bottom:.5rem;display:flex;align-items:center;gap:.3rem}
+.modal-badge{display:inline-block;margin-bottom:1.2rem}
+.modal-desc{font-size:.9rem;color:var(--brand-600);line-height:1.75;border-left:3px solid var(--accent-400);padding-left:1rem;margin-bottom:1.5rem}
+.modal-feats{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem}
+@media(max-width:480px){.modal-feats{grid-template-columns:repeat(2,1fr)}}
+.modal-feat{background:var(--brand-50);border:1px solid var(--brand-100);border-radius:8px;padding:.8rem;text-align:center}
+.modal-feat .mf-val{font-size:1.2rem;font-weight:700;color:var(--brand-900);line-height:1}
+.modal-feat .mf-key{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--brand-400);margin-top:.3rem}
+.modal-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary-modal{padding:.7rem 1.8rem;background:var(--accent-900);color:#fff;border:none;border-radius:6px;font-size:.85rem;font-weight:700;cursor:pointer;text-decoration:none;transition:background .2s}
+.btn-primary-modal:hover{background:var(--accent-800)}
+.btn-outline-modal{padding:.7rem 1.8rem;background:transparent;color:var(--brand-900);border:1px solid var(--brand-300);border-radius:6px;font-size:.85rem;font-weight:700;cursor:pointer;text-decoration:none;transition:background .2s}
+.btn-outline-modal:hover{background:var(--brand-50)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav.main-nav,.nav-right{display:none}
+  .hamburger{display:flex;align-items:center;justify-content:center}
+  .hero h1{font-size:2.4rem}
+  .hero-divider{display:none}
+  .props-header{flex-direction:column;align-items:flex-start}
+  footer{flex-direction:column;text-align:center}
+  .footer-links{justify-content:center;flex-wrap:wrap}
+}
+@media(max-width:900px){.clients-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.clients-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="nav-inner">
+    <a href="#inicio" class="logo">
+      <div class="logo-icon">🏠</div>
+      <span class="logo-text">Casa<span>yola</span></span>
+    </a>
+    <nav class="main-nav">
+      <a href="#propiedades">Comprar</a>
+      <a href="#propiedades" onclick="setTimeout(()=>document.getElementById('tabRent').click(),300)">Alquilar</a>
+      <a href="#testimonios">Testimonios</a>
+    </nav>
+    <div class="nav-right">
+      <a href="tel:+34957123456" class="nav-phone">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 01.1 2.82 2 2 0 012.08 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l1.45-1.45a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        957 123 456
+      </a>
+      <a href="#contacto" class="btn-contact-nav">Contactar</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#inicio" onclick="closeMobile()">Inicio</a>
+    <a href="#propiedades" onclick="closeMobile()">Comprar</a>
+    <a href="#propiedades" onclick="closeMobile();setTimeout(()=>document.getElementById('tabRent').click(),400)">Alquilar</a>
+    <a href="#testimonios" onclick="closeMobile()">Testimonios</a>
+    <a href="#contacto" onclick="closeMobile()" style="margin-top:.5rem;text-align:center;background:var(--accent-600);color:#fff;border-radius:6px">Contactar</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg">
+    <!-- Slide 1: Mezquita-Catedral -->
+    <div class="hero-slide active" id="slide-0">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80" alt="Mezquita de Córdoba">
+    </div>
+    <!-- Slide 2: Puente Romano -->
+    <div class="hero-slide" id="slide-1">
+      <img src="https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=1600&q=80" alt="Puente Romano de Córdoba">
+    </div>
+    <!-- Slide 3: Patios de Córdoba -->
+    <div class="hero-slide" id="slide-2">
+      <img src="https://images.unsplash.com/photo-1509233725247-49e657319d63?w=1600&q=80" alt="Córdoba ciudad">
+    </div>
+    <div class="hero-grad"></div>
+  </div>
+
+  <!-- Indicadores de slide -->
+  <div class="hero-indicators">
+    <button class="hero-dot active" onclick="goSlide(0)"></button>
+    <button class="hero-dot" onclick="goSlide(1)"></button>
+    <button class="hero-dot" onclick="goSlide(2)"></button>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-pill">
+      <div class="hero-pill-dot"></div>
+      Pisos en Córdoba · Particular
+    </div>
+    <h1>Tu próximo hogar<br>en Córdoba.</h1>
+    <p class="hero-sub">Soy particular y ofrezco pisos en las mejores zonas de Córdoba. Sin intermediarios, sin comisiones de agencia. Trato directo, transparente y cercano.</p>
+    <div class="hero-btns">
+      <a href="#propiedades" class="btn-hero btn-hero-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Comprar
+      </a>
+      <a href="#propiedades" class="btn-hero btn-hero-accent" onclick="document.getElementById('tabRent').click()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/></svg>
+        Alquilar
+      </a>
+      <a href="#testimonios" class="btn-hero btn-hero-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        Testimonios
+      </a>
+      <a href="#contacto" class="btn-hero btn-hero-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contactar
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>9</strong><span>Pisos disponibles</span></div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat"><strong>100%</strong><span>Sin comisión</span></div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat"><strong>Córdoba</strong><span>Centro y barrios</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPOS DE CLIENTE -->
+<section class="clients-section">
+  <div class="container">
+    <div class="clients-header">
+      <p class="section-label">Tipos de cliente</p>
+      <h2 class="section-title">El espacio ideal para cada etapa de tu vida</h2>
+      <p class="section-sub">Ofrezco pisos propios adaptados a distintos perfiles. Sin agencias ni comisiones. Contacta directamente conmigo.</p>
+    </div>
+    <div class="clients-grid">
+      <div class="client-card" onclick="filterByClient('student')">
+        <div class="client-img-wrap">
+          <img class="client-img" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=300&q=75" alt="Estudiantes">
+        </div>
+        <div class="client-info">
+          <div class="client-title">Estudiantes</div>
+          <div class="client-desc">Estudios y pisos compartidos cerca de la UCO y zonas universitarias. Flexibilidad y precio asequible.</div>
+          <div class="client-link">Ver pisos <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </div>
+      <div class="client-card" onclick="filterByClient('worker')">
+        <div class="client-img-wrap">
+          <img class="client-img" src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=300&q=75" alt="Profesionales">
+        </div>
+        <div class="client-info">
+          <div class="client-title">Profesionales</div>
+          <div class="client-desc">Pisos modernos en zonas céntricas, bien conectados y con todos los servicios a mano. Comodidad urbana.</div>
+          <div class="client-link">Ver pisos <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </div>
+      <div class="client-card" onclick="filterByClient('family')">
+        <div class="client-img-wrap">
+          <img class="client-img" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=300&q=75" alt="Familias">
+        </div>
+        <div class="client-info">
+          <div class="client-title">Familias</div>
+          <div class="client-desc">Hogares amplios con habitaciones para todos, zonas verdes y colegios cercanos. Para construir un futuro.</div>
+          <div class="client-link">Ver pisos <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPIEDADES -->
+<section class="props-section" id="propiedades">
+  <div class="container">
+    <div class="props-header">
+      <div>
+        <h2 class="section-title">Nuestras propiedades en Córdoba</h2>
+        <p class="section-sub">Mis pisos disponibles en Córdoba. Trato directo con el propietario, sin intermediarios.</p>
+      </div>
+      <button class="filter-btn-toggle" id="filterToggle" onclick="toggleFilters()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        Filtros avanzados
+      </button>
+    </div>
+
+    <div class="filters-panel" id="filtersPanel">
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label>Operación</label>
+          <select id="fType">
+            <option value="all">Todas</option>
+            <option value="sale">Comprar</option>
+            <option value="rent">Alquilar</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Perfil</label>
+          <select id="fClient">
+            <option value="all">Todos</option>
+            <option value="student">Estudiantes</option>
+            <option value="worker">Profesionales</option>
+            <option value="family">Familias</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Habitaciones</label>
+          <select id="fBeds">
+            <option value="all">Cualquiera</option>
+            <option value="1">1 habitación</option>
+            <option value="2">2 habitaciones</option>
+            <option value="3+">3 o más</option>
+          </select>
+        </div>
+        <div class="filter-group" style="display:flex;align-items:flex-end">
+          <button class="btn-apply" onclick="applyFilters()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            Aplicar filtros
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs-row">
+      <button class="tab-pill active" id="tabAll" onclick="setTab('all',this)">TODOS LOS INMUEBLES</button>
+      <button class="tab-pill" id="tabSale" onclick="setTab('sale',this)">VENTA</button>
+      <button class="tab-pill" id="tabRent" onclick="setTab('rent',this)">ALQUILER</button>
+    </div>
+
+    <div class="props-grid" id="propsGrid"></div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="test-section" id="testimonios">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto 3rem">
+      <p class="section-label">Testimonios</p>
+      <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="quote-icon">❝</div>
+        <p class="test-text">"El equipo de Casayola nos ayudó a encontrar nuestro primer piso en el Centro Histórico en tiempo récord. Su conocimiento de Córdoba es impresionante y la transparencia en todo el proceso fue total."</p>
+        <div class="test-author">
+          <img class="test-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="María">
+          <span class="test-name">María Fuentes — Compradora</span>
+        </div>
+      </div>
+      <div class="test-card">
+        <div class="quote-icon">❝</div>
+        <p class="test-text">"Llevo colaborando con ellos tres años buscando pisos de inversión en Córdoba. Conocen el mercado local a la perfección y siempre me ofrecen oportunidades exclusivas en las mejores zonas."</p>
+        <div class="test-author">
+          <img class="test-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Javier">
+          <span class="test-name">Javier Morales — Inversor</span>
+        </div>
+      </div>
+      <div class="test-card">
+        <div class="quote-icon">❝</div>
+        <p class="test-text">"Llegué a Córdoba por trabajo y en menos de una semana tenía piso en El Brillante. El proceso fue rápido, digital y sin sorpresas. Totalmente recomendados para cualquiera que busque en Córdoba."</p>
+        <div class="test-author">
+          <img class="test-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Elena">
+          <span class="test-name">Elena Sánchez — Inquilina</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-layout">
+      <div class="faq-intro">
+        <p class="section-label">Dudas comunes</p>
+        <h2 class="section-title">Preguntas frecuentes</h2>
+        <p class="section-sub" style="margin-top:.75rem">Resolvemos tus dudas para que inicies tu proceso inmobiliario en Córdoba con total confianza.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            ¿Qué documentación necesito para alquilar un piso en Córdoba?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-a">Por lo general solicitamos DNI o NIE, contrato de trabajo, las tres últimas nóminas y justificante bancario de solvencia. En algunos casos puede requerirse un mes de fianza adicional o un avalista.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            ¿Cuál es la comisión de la agencia si compro una vivienda?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-a">En ventas aplicamos un 3% más IVA sobre el precio final. Te acompañamos desde la primera visita hasta la firma ante notario sin costes ocultos. Todo es transparente desde el primer momento.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            ¿Hacéis tasaciones de viviendas en Córdoba?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-a">Sí, ofrecemos valoración gratuita y sin compromiso para propietarios que quieran vender. Usamos datos de mercado actualizados y nuestro profundo conocimiento local para darte un precio realista y competitivo.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            ¿En qué barrios de Córdoba tenéis más propiedades?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-a">Tenemos amplia cartera en el Centro Histórico, El Brillante, Cañero, Ciudad Jardín, Sector Sur y Santa Marina. También cubrimos zonas periféricas como Palma del Río y Montilla para viviendas más amplias.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contact-section" id="contacto">
+  <div class="contact-blob"></div>
+  <div class="container" style="position:relative;z-index:2">
+    <div class="contact-grid">
+      <div>
+        <p class="contact-label">Contacto</p>
+        <h2 class="contact-title">Escríbeme,<br>te respondo rápido.</h2>
+        <p class="contact-sub">Soy el propietario directo. Sin agencias, sin esperas. Cuéntame qué buscas y lo hablamos.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 01.1 2.82 2 2 0 012.08 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l1.45-1.45a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div class="contact-detail">
+              <div class="ci-label">Llámanos</div>
+              <a href="tel:+34957123456">+34 957 123 456</a>
+              <span class="small">Línea gratuita de atención</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="contact-detail">
+              <div class="ci-label">Email</div>
+              <a href="mailto:hola@casayola.es">hola@casayola.es</a>
+              <span class="small">Respondemos en menos de 24 h</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="contact-detail">
+              <div class="ci-label">Oficina</div>
+              <p>Av. del Gran Capitán 15, Planta 2</p>
+              <span class="small">14001 Córdoba, España</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="contact-detail">
+              <div class="ci-label">Horario</div>
+              <p>Lunes a Viernes: 09:00 – 19:00</p>
+              <span class="small">Sábados con cita previa</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="infografia-card">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25273.72!2d-4.7795!3d37.8882!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6d0866f7f9bc0f%3A0xaaabfe862ad0a4ba!2sC%C3%B3rdoba!5e0!3m2!1ses!2ses!4v1700000000000"
+          title="Casayola Córdoba"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Casayola</span>
+  <span class="footer-copy">© 2025 Casayola · Particular · Córdoba · Todos los derechos reservados</span>
+  <div class="footer-links">
+    <a href="#">Aviso legal</a>
+    <a href="#">Privacidad</a>
+    <a href="#">Cookies</a>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+const propiedades = [
+  {id:'p1',titulo:'Ático luminoso con gran terraza',desc:'Espectacular ático reformado con vistas al casco histórico de Córdoba. Terraza de 35 m², acabados de primera calidad y cocina equipada. Edificio con ascensor y portería.',precio:285000,tipo:'sale',perfil:['worker','family'],zona:'Centro Histórico',calle:'Calle Gondomar 8, 5ºB',habs:3,banos:2,m2:110,planta:'5ª',ascensor:true,amueblado:false,imagenes:['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=75','https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=75','https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=75']},
+  {id:'p2',titulo:'Piso moderno en El Brillante',desc:'Elegante piso en la zona más exclusiva de Córdoba. Cocina abierta, parqué, dos baños completos y plaza de garaje incluida. Ideal para profesionales.',precio:1400,tipo:'rent',perfil:['worker'],zona:'El Brillante',calle:'Av. del Brillante 44, 3ºA',habs:2,banos:2,m2:90,planta:'3ª',ascensor:true,amueblado:false,imagenes:['https://images.unsplash.com/photo-1484154218962-a197022b5858?w=700&q=75','https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=700&q=75']},
+  {id:'p3',titulo:'Estudio ideal para universitarios',desc:'Acogedor estudio a 5 minutos caminando del Campus de Rabanales. Totalmente amueblado, wifi de alta velocidad incluido y comunidad tranquila.',precio:450,tipo:'rent',perfil:['student'],zona:'Rabanales',calle:'Calle Isaac Newton 12, 1ºC',habs:1,banos:1,m2:38,planta:'1ª',ascensor:false,amueblado:true,imagenes:['https://images.unsplash.com/photo-1502672023488-70e25813eb80?w=700&q=75','https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=700&q=75']},
+  {id:'p4',titulo:'Chalet familiar con piscina · Ciudad Jardín',desc:'Magnífico chalet en parcela de 500 m² con jardín, piscina privada y zona de barbacoa. Cuatro amplias habitaciones, garaje doble y trastero. Zona residencial premium.',precio:520000,tipo:'sale',perfil:['family'],zona:'Ciudad Jardín',calle:'Calle de la Fuensanta 7',habs:4,banos:3,m2:220,planta:'Planta baja + 1',ascensor:false,amueblado:false,imagenes:['https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=700&q=75','https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=700&q=75','https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=700&q=75']},
+  {id:'p5',titulo:'Piso reformado listo para entrar · Cañero',desc:'Vivienda completamente renovada con acabados modernos. Cocina equipada, aire acondicionado en todas las estancias y armarios empotrados. Muy bien comunicado.',precio:175000,tipo:'sale',perfil:['worker','family'],zona:'Cañero',calle:'Calle Poeta Solís 34, 2ºD',habs:3,banos:2,m2:95,planta:'2ª',ascensor:true,amueblado:false,imagenes:['https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=700&q=75','https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=700&q=75']},
+  {id:'p6',titulo:'Loft de diseño en Sector Sur',desc:'Impresionante loft de concepto abierto en edificio rehabilitado. Techos de 4 metros, zona de trabajo integrada y cocina de diseño. Para quienes buscan algo diferente.',precio:950,tipo:'rent',perfil:['worker'],zona:'Sector Sur',calle:'Av. de Cádiz 102, 1ºB',habs:1,banos:1,m2:80,planta:'1ª',ascensor:true,amueblado:true,imagenes:['https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=700&q=75','https://images.unsplash.com/photo-1540518614846-7eded433c457?w=700&q=75']},
+  {id:'p7',titulo:'Piso compartido · 4 hab cerca UCO',desc:'Amplio piso ideal para compartir entre estudiantes. Cuatro habitaciones individuales, dos baños, gran salón y cocina equipada. A 10 minutos del Campus de Rabanales en bici.',precio:320,tipo:'rent',perfil:['student'],zona:'Poniente Norte',calle:'Calle José Cruz Conde 18, 4ºA',habs:4,banos:2,m2:105,planta:'4ª',ascensor:true,amueblado:true,imagenes:['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=700&q=75','https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=700&q=75']},
+  {id:'p8',titulo:'Piso familiar con terraza · Santa Marina',desc:'Espacioso piso de tres habitaciones en el barrio histórico de Santa Marina. Terraza de 20 m², salón de 35 m² y dos baños completos. Comunidad con ascensor.',precio:230000,tipo:'sale',perfil:['family','worker'],zona:'Santa Marina',calle:'Calle Santa Marina 25, 3ºC',habs:3,banos:2,m2:115,planta:'3ª',ascensor:true,amueblado:false,imagenes:['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=75','https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=700&q=75']},
+  {id:'p9',titulo:'Apartamento céntrico · Judería',desc:'Encantador apartamento en plena Judería de Córdoba, a pasos de la Mezquita-Catedral. Reformado con gusto, conservando elementos históricos originales. Único en su clase.',precio:1100,tipo:'rent',perfil:['worker','student'],zona:'La Judería',calle:'Calle Velázquez Bosco 3, 1ºA',habs:2,banos:1,m2:65,planta:'1ª',ascensor:false,amueblado:true,imagenes:['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=75','https://images.unsplash.com/photo-1484154218962-a197022b5858?w=700&q=75']}
+];
+
+// ── STATE ──
+let activeTab = 'all', fType = 'all', fClient = 'all', fBeds = 'all';
+const imgIndex = {};
+
+function getFiltered() {
+  return propiedades.filter(p => {
+    if (activeTab !== 'all' && p.tipo !== activeTab) return false;
+    if (fType !== 'all' && p.tipo !== fType) return false;
+    if (fClient !== 'all' && !p.perfil.includes(fClient)) return false;
+    if (fBeds !== 'all') {
+      if (fBeds === '3+' && p.habs < 3) return false;
+      if (fBeds !== '3+' && p.habs !== parseInt(fBeds)) return false;
+    }
+    return true;
+  });
+}
+
+function fmt(price, tipo) {
+  const n = new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(price);
+  return tipo === 'rent' ? n + '<small>/mes</small>' : n;
+}
+
+function renderGrid() {
+  const list = getFiltered();
+  const grid = document.getElementById('propsGrid');
+  if (!list.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><h3>No encontramos propiedades</h3><p>Prueba a modificar los filtros para encontrar más resultados.</p><button class="clear-link" onclick="clearFilters()">Limpiar filtros</button></div>`;
+    return;
+  }
+  grid.innerHTML = list.map(p => {
+    if (imgIndex[p.id] === undefined) imgIndex[p.id] = 0;
+    const idx = imgIndex[p.id];
+    const dots = p.imagenes.map((_, i) => `<div class="img-dot ${i===idx?'active':''}"></div>`).join('');
+    return `
+    <div class="prop-card">
+      <div class="prop-img-wrap">
+        <div class="prop-badge-row">
+          <span class="prop-badge ${p.tipo==='sale'?'badge-sale':'badge-rent'}">${p.tipo==='sale'?'En Venta':'Alquiler'}</span>
+          ${p.ascensor?'<span class="prop-badge badge-extra">Ascensor</span>':''}
+        </div>
+        <div class="prop-price-tag">${fmt(p.precio,p.tipo)}</div>
+        ${p.imagenes.length>1?`<button class="img-nav prev" onclick="prevImg('${p.id}')">‹</button><button class="img-nav next" onclick="nextImg('${p.id}')">›</button>`:''}
+        <div class="img-dots" id="dots-${p.id}">${dots}</div>
+        <img class="prop-img" id="img-${p.id}" src="${p.imagenes[idx]}" alt="${p.titulo}" loading="lazy">
+      </div>
+      <div class="prop-body">
+        <div class="prop-zone">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${p.zona} · Córdoba
+        </div>
+        <div class="prop-title">${p.titulo}</div>
+        <div class="prop-desc">${p.desc}</div>
+        <div class="prop-features">
+          <div class="feat-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>${p.habs} Hab</div>
+          <div class="feat-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 12a8 8 0 018-8M4 12v4a8 8 0 0016 0v-4"/></svg>${p.banos} Baños</div>
+          <div class="feat-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>${p.m2} m²</div>
+        </div>
+        <div class="prop-extras">
+          <span>Planta ${p.planta}</span>
+          <span>Ascensor: ${p.ascensor?'Sí':'No'}</span>
+          <span>Amueblado: ${p.amueblado?'Sí':'No'}</span>
+        </div>
+        <button class="prop-btn" onclick="openModal('${p.id}')">MÁS INFORMACIÓN</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function prevImg(id) {
+  const p = propiedades.find(x=>x.id===id);
+  imgIndex[id] = (imgIndex[id]-1+p.imagenes.length)%p.imagenes.length;
+  document.getElementById('img-'+id).src = p.imagenes[imgIndex[id]];
+  document.getElementById('dots-'+id).innerHTML = p.imagenes.map((_,i)=>`<div class="img-dot ${i===imgIndex[id]?'active':''}"></div>`).join('');
+}
+function nextImg(id) {
+  const p = propiedades.find(x=>x.id===id);
+  imgIndex[id] = (imgIndex[id]+1)%p.imagenes.length;
+  document.getElementById('img-'+id).src = p.imagenes[imgIndex[id]];
+  document.getElementById('dots-'+id).innerHTML = p.imagenes.map((_,i)=>`<div class="img-dot ${i===imgIndex[id]?'active':''}"></div>`).join('');
+}
+
+function setTab(val, btn) {
+  activeTab = val;
+  document.querySelectorAll('.tab-pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+function toggleFilters() {
+  document.getElementById('filtersPanel').classList.toggle('open');
+}
+
+function applyFilters() {
+  fType = document.getElementById('fType').value;
+  fClient = document.getElementById('fClient').value;
+  fBeds = document.getElementById('fBeds').value;
+  renderGrid();
+}
+
+function clearFilters() {
+  fType='all'; fClient='all'; fBeds='all'; activeTab='all';
+  document.getElementById('fType').value='all';
+  document.getElementById('fClient').value='all';
+  document.getElementById('fBeds').value='all';
+  document.querySelectorAll('.tab-pill').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tabAll').classList.add('active');
+  renderGrid();
+}
+
+function filterByClient(c) {
+  fClient = c;
+  document.getElementById('fClient').value = c;
+  document.getElementById('filtersPanel').classList.add('open');
+  document.getElementById('propiedades').scrollIntoView({behavior:'smooth'});
+  renderGrid();
+}
+
+function openModal(id) {
+  const p = propiedades.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-img-wrap"><img src="${p.imagenes[0]}" alt="${p.titulo}"></div>
+    <div class="modal-body">
+      <div class="modal-price">${fmt(p.precio,p.tipo)}</div>
+      <div class="modal-address">📍 ${p.calle} · ${p.zona}, Córdoba</div>
+      <span class="modal-badge prop-badge ${p.tipo==='sale'?'badge-sale':'badge-rent'}" style="margin-bottom:1rem;display:inline-block">${p.tipo==='sale'?'En Venta':'Alquiler'}</span>
+      <p class="modal-desc">${p.desc}</p>
+      <div class="modal-feats">
+        <div class="modal-feat"><div class="mf-val">${p.habs}</div><div class="mf-key">Habitaciones</div></div>
+        <div class="modal-feat"><div class="mf-val">${p.banos}</div><div class="mf-key">Baños</div></div>
+        <div class="modal-feat"><div class="mf-val">${p.m2}</div><div class="mf-key">m² útiles</div></div>
+        <div class="modal-feat"><div class="mf-val">${p.planta}</div><div class="mf-key">Planta</div></div>
+        <div class="modal-feat"><div class="mf-val">${p.ascensor?'Sí':'No'}</div><div class="mf-key">Ascensor</div></div>
+        <div class="modal-feat"><div class="mf-val">${p.amueblado?'Sí':'No'}</div><div class="mf-key">Amueblado</div></div>
+      </div>
+      <div class="modal-actions">
+        <a href="#contacto" class="btn-primary-modal" onclick="closeModal()">Solicitar información</a>
+        <a href="tel:+34957123456" class="btn-outline-modal">Llamar ahora</a>
+      </div>
+    </div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeModalOutside(e) { if(e.target===document.getElementById('modalOverlay')) closeModal(); }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+function toggleFAQ(btn) {
+  const a = btn.nextElementSibling;
+  const ch = btn.querySelector('.faq-chevron');
+  const isOpen = a.classList.contains('open');
+  document.querySelectorAll('.faq-a.open').forEach(el=>el.classList.remove('open'));
+  document.querySelectorAll('.faq-chevron.open').forEach(el=>el.classList.remove('open'));
+  if (!isOpen) { a.classList.add('open'); ch.classList.add('open'); }
+}
+
+function closeMobile() { document.getElementById('mobile-menu').classList.remove('open'); }
+document.getElementById('hamburger').addEventListener('click',()=>{
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+
+// ── CARRUSEL HERO ──
+let currentSlide = 0;
+const totalSlides = 3;
+let slideTimer;
+
+function goSlide(n) {
+  document.getElementById('slide-' + currentSlide).classList.remove('active');
+  document.querySelectorAll('.hero-dot')[currentSlide].classList.remove('active');
+  currentSlide = n;
+  document.getElementById('slide-' + currentSlide).classList.add('active');
+  document.querySelectorAll('.hero-dot')[currentSlide].classList.add('active');
+  resetSlideTimer();
+}
+
+function nextSlide() { goSlide((currentSlide + 1) % totalSlides); }
+
+function resetSlideTimer() {
+  clearInterval(slideTimer);
+  slideTimer = setInterval(nextSlide, 5000);
+}
+
+resetSlideTimer();
+renderGrid();
+</script>
+</body>
+</html>
